@@ -103,14 +103,15 @@ class SaveBestACCModel:
         self.best_valid_acc = best_valid_acc
 
     def __call__(self, current_valid_acc, epoch, model, optimizer, criterion, path):
+        print(f"Current Validation Accuracy: {current_valid_acc}, Best Validation Accuracy: {self.best_valid_acc}")
 
-        if current_valid_acc > self.best_valid_acc:
-
+        if current_valid_acc >= self.best_valid_acc:
             self.best_valid_acc = current_valid_acc
             print(f"Best validation acc: {self.best_valid_acc}")
             print(f"Saving best model for epoch: {epoch}\n")
             save_model(path, epoch, model, optimizer)
-
+        else:
+            print(f"Model not saved for epoch: {epoch} as current_valid_acc did not exceed best_valid_acc.")
 
 def save_plots(train_acc, valid_acc, train_loss, valid_loss):
     """

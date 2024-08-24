@@ -1,6 +1,7 @@
 import os
 from utils import args
 from Dataset import dataloader
+from Dataset import load_UEA_data
 from models.runner import supervised, pre_training, linear_probing
 
 
@@ -10,7 +11,7 @@ if __name__ == '__main__':
 for problem in os.listdir(config['data_dir']):
     config['problem'] = problem
     print(problem)
-    Data = dataloader.data_loader(config)
+    Data = load_UEA_data.load(config)
 
     if config['Training_mode'] == 'Pre_Training':
         if config['Model_Type'][0] == 'Series2Vec':

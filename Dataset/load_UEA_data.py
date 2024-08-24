@@ -4,7 +4,9 @@ import logging
 import random
 from sklearn import model_selection
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sktime.utils.load_data import load_from_tsfile_to_dataframe
+
+from sktime.datasets import load_from_tsfile_to_dataframe
+# from sktime.utils.load_data import load_from_tsfile_to_dataframe
 
 logger = logging.getLogger(__name__)
 
@@ -12,11 +14,14 @@ logger = logging.getLogger(__name__)
 def load(config):
     # Build data
     Data = {}
-    problem = config['data_dir'].split('/')[-1]
+    temp_dir = config['data_dir']
+    temp_problem = config['problem']
+    concat_dir = temp_dir + '/' + temp_problem
+    problem = concat_dir.split('/')[-1]
 
-    if os.path.exists(config['data_dir'] + '/' + problem + '.npy'):
+    if os.path.exists(config['data_dir'] + '/' + problem + "/" + problem + '.npy'):
         logger.info("Loading preprocessed data ...")
-        Data_npy = np.load(config['data_dir'] + '/' + problem + '.npy', allow_pickle=True)
+        Data_npy = np.load(config['data_dir'] + '/' + problem + "/" + problem + '.npy', allow_pickle=True)
 
         Data['max_len'] = Data_npy.item().get('max_len')
         Data['All_train_data'] = Data_npy.item().get('All_train_data')
@@ -34,8 +39,8 @@ def load(config):
 
     else:
         logger.info("Loading and preprocessing data ...")
-        train_file = config['data_dir'] + "/" + problem + "_TRAIN.ts"
-        test_file = config['data_dir'] + "/" + problem + "_TEST.ts"
+        train_file = config['data_dir'] + "/" + problem + "/" + problem + "_TRAIN.ts"
+        test_file = config['data_dir'] + "/" + problem + "/" + problem + "_TEST.ts"
         train_df, y_train = load_from_tsfile_to_dataframe(train_file)
         test_df, y_test = load_from_tsfile_to_dataframe(test_file)
 
@@ -78,7 +83,7 @@ def load(config):
         Data['test_data'] = X_test
         Data['test_label'] = y_test
 
-        np.save(config['data_dir'] + "/" + problem, Data, allow_pickle=True)
+        np.save(config['data_dir'] + "/" + problem + "/" + problem , Data, allow_pickle=True)
 
     return Data
 

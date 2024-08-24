@@ -43,6 +43,9 @@ def pre_training(config, Data):
     save_path = os.path.join(config['save_dir'], config['problem'] + '_model_{}.pth'.format('last'))
     SS_train_runner(config, model, SS_trainer, save_path)
 
+    # Clear CUDA memory cache after training
+    torch.cuda.empty_cache()
+
     # --------------------------------------------- Downstream Task (classification)   ---------------------------------
     # ---------------------- Loading the model and freezing layers except FC layer -------------------------------------
     SS_Encoder, optimizer, start_epoch = load_model(model, save_path, config['optimizer'])  # Loading the model
@@ -236,14 +239,21 @@ def supervised(config, Data):
     val_loader = DataLoader(dataset=val_dataset, batch_size=config['batch_size'], shuffle=True, pin_memory=True)
     test_loader = DataLoader(dataset=test_dataset, batch_size=config['batch_size'], shuffle=True, pin_memory=True)
 
+    # Training Phase
     S_trainer = choose_trainer(model, train_loader, None, config, False, 'S')
     S_val_evaluator = choose_trainer(model, val_loader, None, config, False, 'S')
     save_path = os.path.join(config['save_dir'], config['problem'] + '_model_{}.pth'.format('last'))
 
     Strain_runner(config, model, S_trainer, S_val_evaluator, save_path)
+
+    # Clear CUDA memory cache after training
+    torch.cuda.empty_cache()
+
+    # Evaluation Phase
     best_model, optimizer, start_epoch = load_model(model, save_path, config['optimizer'])
     best_model.to(config['device'])
 
     best_test_evaluator = choose_trainer(best_model, test_loader, None, config, True, 'S')
     best_aggr_metrics_test, all_metrics = best_test_evaluator.evaluate(keep_all=True)
+    print('Supervised method returned')
     return best_aggr_metrics_test, all_metrics
