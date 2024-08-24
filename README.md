@@ -17,11 +17,12 @@ Copy the datasets folder to: Datasets/UEA/
 
 ## Setup
 
-_Instructions refer to Unix-based systems (e.g. Linux, MacOS)._
+_Instructions refer to Ubuntu Linux System, this is a strict requirement for the code, as well as an NVIDIA GPU enabled machine as Cuda is required for the project
 
-This code has been tested with `Python 3.7` and `3.8`.
+This code has been tested with `Python 3.7`(by original author Navid Foumani) and `3.8`(by original author and myself).
 
-`pip install -r requirements.txt`
+`pip install -r requirements.txt'
+NOTE: some dependencies are specific to ubuntu and therefore are commented out within requirements.txt and need to be manually installed using apt-get or apt
 
 ## Run
 
