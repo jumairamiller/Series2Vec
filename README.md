@@ -22,10 +22,12 @@ _Instructions refer to Ubuntu Linux System, this is a strict requirement for the
 This code has been tested with `Python 3.7`(by original author Navid Foumani) and `3.8`(by original author and myself).
 
 Optional step) to create and activate a virtual environment before installing required rependencies, run the following commands:
+
             python3 -m venv series2vec_env
             source series2vec_env/bin/activate
             
 To install required dependencies, run the following command:
+
             pip install -r requirements.txt
             
 NOTE: some dependencies are specific to ubuntu and therefore are commented out within requirements.txt and need to be manually installed using apt-get or apt
