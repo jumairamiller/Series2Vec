@@ -30,7 +30,7 @@ To install required dependencies, run the following command:
 
             pip install -r requirements.txt
             
-NOTE: some dependencies are specific to ubuntu and therefore are commented out within requirements.txt and need to be manually installed using apt-get or apt
+NOTE: some dependencies are specific to ubuntu and therefore are commented out within requirements.txt and need to be manually installed using `sudo apt install` or `sudo apt-get`
 
 ## Run
 
